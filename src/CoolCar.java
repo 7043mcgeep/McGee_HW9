@@ -57,13 +57,13 @@ public class CoolCar extends Application {
 	Sphere sphere;
 	
 	// Import all images
-	Image sunset = new Image("file:sunset.jpg");
-	Image mtn1 = new Image("file:red.jpg");
-	Image mtn2 = new Image("file:mtn_sand_light.jpg");
-	Image mtn3 = new Image("file:mtn_sand_dark.jpg");
-	Image mtn4 = new Image("file:rock.jpg");
-	Image ground = new Image("file:dirt.jpg");
-	Image sun = new Image("file:sun.png");
+	Image sunset = new Image("sunset.jpg");
+	Image mtn1 = new Image("red.jpg");
+	Image mtn2 = new Image("mtn_sand_light.jpg");
+	Image mtn3 = new Image("mtn_sand_dark.jpg");
+	Image mtn4 = new Image("rock.jpg");
+	Image ground = new Image("dirt.jpg");
+	Image sun = new Image("sun.png");
 	
 	// Set initial values for sun position (which are changed in update()).
 	int sphere_x = 0, sphere_y = -610, sphere_z = 1000;
