@@ -1,0 +1,16 @@
+#Produced by Art of Illusion 3.0.3, Wed Apr 25 22:13:20 CDT 2018
+newmtl Untitled_1
+Kd 1 0.84338 0.65952
+Ks 0 0 0
+Ka 0 0 0
+illum 1
+newmtl Untitled_11
+Kd 1 0.26016 0.26016
+Ks 0 0 0
+Ka 0 0 0
+illum 1
+newmtl part-tx
+Kd 1 0.57079 0.57079
+Ks 0 0 0
+Ka 0 0 0
+illum 1
