@@ -54,11 +54,12 @@ public class CoolCar extends Application {
 	private double mouseDeltaX;
 	private double mouseDeltaY;
 	
-	public int car_x = 0, car_y = -50, car_z = -700, car_rotate = 180, dx = 0, dz = 0;
+//	public int car_x = 0, car_y = -50, car_z = -700, car_rotate = 180, dx = 0, dz = 0;
 	
 	Sphere sphere;
-	Group droid;
-	Point3D car_r = new Point3D(0, 1, 0); 
+//	Group droid;
+//	Point3D car_r = new Point3D(0, 1, 0); 
+	Car car;
 	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
@@ -210,42 +211,46 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateZ(0);
 		root.getChildren().add(sml_mtn2);
 		
-		// Bring in the cool car! Thanks to open-source site free3d.com and Art of Illusion.
-		ObjView drvr = new ObjView();
-		try {
-			drvr.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
-		} catch (IOException e) {
-			System.out.println("Trouble loading model");
-			e.printStackTrace();
-		}
-		droid = drvr.getRoot();
-		droid.setScaleX(5);
-		droid.setScaleY(-5);
-		droid.setScaleZ(-5);
-		droid.setTranslateX(car_x);
-		droid.setTranslateY(car_y);
-		droid.setTranslateZ(car_z);
-		droid.setRotationAxis(car_r);
-		droid.setRotate(car_rotate);
+//		ObjView drvr = new ObjView();
+//		car = new Car("LEGO_CAR_B2.obj", drvr, car_x, car_z);
+//		// Bring in the cool car! Thanks to open-source site free3d.com and Art of Illusion.
+//		try {
+//			drvr.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
+//		} catch (IOException e) {
+//			System.out.println("Trouble loading model");
+//			e.printStackTrace();
+//		}
+//		droid = drvr.getRoot();
+//		droid.setScaleX(5);
+//		droid.setScaleY(-5);
+//		droid.setScaleZ(-5);
+//		droid.setTranslateX(car_x);
+//		droid.setTranslateY(car_y);
+//		droid.setTranslateZ(car_z);
+//		droid.setRotationAxis(car_r);
+//		droid.setRotate(car_rotate);
+//		
+//		root.getChildren().add(droid);
+//		for (Node n:droid.getChildren())
+//		{
+//			MeshView mv = (MeshView) n;
+//			Mesh m = ((MeshView) n).getMesh();
+//			System.out.println(n);
+//			System.out.println(m);
+//			TriangleMesh tm = (TriangleMesh) m;
+//			System.out.println("Faces: "+tm.getFaceElementSize());
+//			System.out.println(tm.getFaces() );
+//			System.out.println(tm.getFaceSmoothingGroups());
+//			System.out.println("Normals: "+tm.getNormalElementSize());
+//			System.out.println(tm.getNormals());
+//			System.out.println("Points: "+tm.getPointElementSize());
+//			System.out.println(tm.getPoints());
+//			System.out.println("TexCoords: "+tm.getTexCoordElementSize());
+//			System.out.println(tm.getTexCoords());
+//		}
 		
-		root.getChildren().add(droid);
-		for (Node n:droid.getChildren())
-		{
-			MeshView mv = (MeshView) n;
-			Mesh m = ((MeshView) n).getMesh();
-			System.out.println(n);
-			System.out.println(m);
-			TriangleMesh tm = (TriangleMesh) m;
-			System.out.println("Faces: "+tm.getFaceElementSize());
-			System.out.println(tm.getFaces() );
-			System.out.println(tm.getFaceSmoothingGroups());
-			System.out.println("Normals: "+tm.getNormalElementSize());
-			System.out.println(tm.getNormals());
-			System.out.println("Points: "+tm.getPointElementSize());
-			System.out.println(tm.getPoints());
-			System.out.println("TexCoords: "+tm.getTexCoordElementSize());
-			System.out.println(tm.getTexCoords());
-		}
+		car = new Car("Car 1", 0.0, -700.0, root);
+//		root.getChildren().add(car.getDroid());
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
@@ -263,15 +268,16 @@ public class CoolCar extends Application {
 	int sun_z = -1000;
 	public void update() {
 	
-		if(car_rotate == 45)
-			dx = -45;
+//		if(car_rotate == 45)
+//			dx = -45;
+//		
+//		droid.setTranslateX(car_x - dx);
+//		droid.setTranslateY(car_y);
+//		droid.setTranslateZ(car_z + dx);
+		car.update();
 		
-		droid.setTranslateX(car_x);
-		droid.setTranslateY(car_y);
-		droid.setTranslateZ(car_z + dx);
-		
-		cameraDolly.setTranslateZ(car_z-1500);	// -1000
-		cameraDolly.setTranslateX(car_x);
+		cameraDolly.setTranslateZ(car.getZ()-1500);	// -1000
+		cameraDolly.setTranslateX(car.getX());
 		cameraDolly.setTranslateY(-100);	// -30
 		
 		// Move sun down and back until it hits lower limit
@@ -356,8 +362,8 @@ public class CoolCar extends Application {
 		scene.setCamera(camera);
 		// translations through dolly
 		cameraDolly = new Group();
-		cameraDolly.setTranslateZ(car_z-300);	// -1000
-		cameraDolly.setTranslateX(car_x);
+		cameraDolly.setTranslateZ(car.getZ()-300);	// -1000
+		cameraDolly.setTranslateX(car.getX());
 		cameraDolly.setTranslateY(-100);	// -30
 		cameraDolly.getChildren().add(camera);
 		sceneRoot.getChildren().add(cameraDolly);
@@ -365,7 +371,7 @@ public class CoolCar extends Application {
 		Rotate xRotate = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
 		Rotate yRotate = new Rotate(0, 0, 0, 0, Rotate.Y_AXIS);
 		camera.getTransforms().addAll(xRotate, yRotate);
-
+		
 		// Use keyboard to control camera position
 		scene.setOnKeyPressed(event -> {
 			double change = cameraQuantity;
@@ -380,26 +386,16 @@ public class CoolCar extends Application {
 				//delta = new Point3D(0, 0, -change);
 			}
 			if (keycode == KeyCode.A) {
-				//delta = new Point3D(-change, 0, 0);
-				car_rotate -= 45;
-				droid.setRotate(car_rotate);
-				System.out.println(car_rotate);
+				car.left();
 			}
 			if (keycode == KeyCode.D) {
-				//delta = new Point3D(change, 0, 0);
-				car_rotate += 45;
-				droid.setRotate(car_rotate);
-				System.out.println(car_rotate);
+				car.right();
 			}
 			if (keycode == KeyCode.W) {
-				//delta = new Point3D(0, -change, 0);
-				car_x += 7;
-				//dz += 7;
+				car.forward();
 			}
 			if (keycode == KeyCode.S) {
-				//delta = new Point3D(0, change, 0);
-				car_x -= 7;
-				//dz -= 7;
+				car.backward();
 			}
 			if (delta != null) {
 				Point3D delta2 = camera.localToParent(delta);
@@ -426,6 +422,13 @@ public class CoolCar extends Application {
 
 			yRotate.setAngle(((yRotate.getAngle() - mouseDeltaX * 0.2) % 360 + 540) % 360 - 180); // +
 			xRotate.setAngle(((xRotate.getAngle() + mouseDeltaY * 0.2) % 360 + 540) % 360 - 180); // -
+		});
+		
+		scene.setOnKeyReleased(me -> {
+			KeyCode c = me.getCode();
+			if (c == KeyCode.W || c == KeyCode.S) {
+				car.stop();
+			}
 		});
 
 		// Setup and start animation loop (Timeline)
