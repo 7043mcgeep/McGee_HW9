@@ -9,8 +9,8 @@ import javafx.scene.shape.TriangleMesh;
 
 public class Car {
 	
-	private static double VELOCITY  = 10;
-	private static int    ANGLE_INC = 1;
+	private static double VELOCITY  = 20;
+	private static int    ANGLE_INC = 2;
 	
 	private double angle, velocity;
 	private double x, z;

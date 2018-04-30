@@ -13,6 +13,8 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial; 
@@ -61,6 +63,8 @@ public class CoolCar extends Application {
 //	Point3D car_r = new Point3D(0, 1, 0); 
 	Car car;
 	
+	static MediaPlayer mP;
+	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
 	Image mtn1 = new Image("red.jpg");
@@ -81,6 +85,13 @@ public class CoolCar extends Application {
 		// Soft light
 		light = new AmbientLight(Color.rgb(153, 153, 153));
 		root.getChildren().add(light);
+		
+			Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
+			//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
+			mP = new MediaPlayer(song);
+			mP.setCycleCount(20);
+			mP.play();
+			mP.setVolume(0.7);
 
 		PointLight pl = new PointLight();
 		pl.setTranslateX(100);
