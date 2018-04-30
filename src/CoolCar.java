@@ -54,7 +54,10 @@ public class CoolCar extends Application {
 	private double mouseDeltaX;
 	private double mouseDeltaY;
 	
+	public int car_x = 0, car_y = 0, car_z = 0, car_rotate = 0;
+	
 	Sphere sphere;
+	Group droid;
 	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
@@ -209,18 +212,22 @@ public class CoolCar extends Application {
 		// Bring in the cool car! Thanks to open-source site free3d.com and Art of Illusion.
 		ObjView drvr = new ObjView();
 		try {
-			drvr.load(ClassLoader.getSystemResource("porsche1.obj").toString());
+			drvr.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
 		} catch (IOException e) {
 			System.out.println("Trouble loading model");
 			e.printStackTrace();
 		}
-		Group droid = drvr.getRoot();
-		droid.setScaleX(70);
-		droid.setScaleY(-70);
-		droid.setScaleZ(-70);
+		droid = drvr.getRoot();
+		droid.setScaleX(5);
+		droid.setScaleY(-5);
+		droid.setScaleZ(-5);
 		droid.setTranslateX(0);
 		droid.setTranslateY(-50);
 		droid.setTranslateZ(-600);
+		
+		Point3D car_r = new Point3D(0, 1, 0);
+		droid.setRotationAxis(car_r);
+		droid.setRotate(30);
 		
 		root.getChildren().add(droid);
 		for (Node n:droid.getChildren())
@@ -364,15 +371,18 @@ public class CoolCar extends Application {
 			}
 			if (keycode == KeyCode.A) {
 				delta = new Point3D(-change, 0, 0);
+				droid.setRotate(30);
 			}
 			if (keycode == KeyCode.D) {
 				delta = new Point3D(change, 0, 0);
 			}
 			if (keycode == KeyCode.W) {
 				delta = new Point3D(0, -change, 0);
+				car_x++;
 			}
 			if (keycode == KeyCode.S) {
 				delta = new Point3D(0, change, 0);
+				car_x--;
 			}
 			if (delta != null) {
 				Point3D delta2 = camera.localToParent(delta);
