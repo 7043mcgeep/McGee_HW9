@@ -79,7 +79,7 @@ public class CoolCar extends Application {
 	// Make the world.
 	private void constructWorld(Group root) {
 		
-		Media song = new Media(ClassLoader.getSystemResource("sounds/bensound-thejazzpiano.mp3").toString());
+		Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
 		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
