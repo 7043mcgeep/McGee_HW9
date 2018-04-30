@@ -54,10 +54,11 @@ public class CoolCar extends Application {
 	private double mouseDeltaX;
 	private double mouseDeltaY;
 	
-	public int car_x = 0, car_y = 0, car_z = 0, car_rotate = 0;
+	public int car_x = 0, car_y = -50, car_z = -700, car_rotate = 0;
 	
 	Sphere sphere;
 	Group droid;
+	Point3D car_r = new Point3D(0, 1, 0);
 	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
@@ -221,13 +222,10 @@ public class CoolCar extends Application {
 		droid.setScaleX(5);
 		droid.setScaleY(-5);
 		droid.setScaleZ(-5);
-		droid.setTranslateX(0);
-		droid.setTranslateY(-50);
-		droid.setTranslateZ(-600);
-		
-		Point3D car_r = new Point3D(0, 1, 0);
+		droid.setTranslateX(car_x);
+		droid.setTranslateY(car_y);
+		droid.setTranslateZ(car_z);
 		droid.setRotationAxis(car_r);
-		droid.setRotate(30);
 		
 		root.getChildren().add(droid);
 		for (Node n:droid.getChildren())
@@ -264,6 +262,14 @@ public class CoolCar extends Application {
 	int sun_z = -1000;
 	public void update() {
 	
+		droid.setTranslateX(car_x - car_rotate);
+		droid.setTranslateY(car_y);
+		droid.setTranslateZ(car_z);
+		
+		cameraDolly.setTranslateZ(car_z-1500);	// -1000
+		cameraDolly.setTranslateX(car_x);
+		cameraDolly.setTranslateY(-100);	// -30
+		
 		// Move sun down and back until it hits lower limit
 		if(set && sphere_y < 100) {
 			sphere.setTranslateY(sphere_y);
@@ -346,9 +352,9 @@ public class CoolCar extends Application {
 		scene.setCamera(camera);
 		// translations through dolly
 		cameraDolly = new Group();
-		cameraDolly.setTranslateZ(-1000);	// -1000
-		cameraDolly.setTranslateX(0);
-		cameraDolly.setTranslateY(-30);	// -30
+		cameraDolly.setTranslateZ(car_z-300);	// -1000
+		cameraDolly.setTranslateX(car_x);
+		cameraDolly.setTranslateY(-100);	// -30
 		cameraDolly.getChildren().add(camera);
 		sceneRoot.getChildren().add(cameraDolly);
 		// rotation transforms
@@ -364,25 +370,28 @@ public class CoolCar extends Application {
 
 			Point3D delta = null;
 			if (keycode == KeyCode.COMMA) {
-				delta = new Point3D(0, 0, change);
+				//delta = new Point3D(0, 0, change);
 			}
 			if (keycode == KeyCode.PERIOD) {
-				delta = new Point3D(0, 0, -change);
+				//delta = new Point3D(0, 0, -change);
 			}
 			if (keycode == KeyCode.A) {
-				delta = new Point3D(-change, 0, 0);
-				droid.setRotate(30);
+				//delta = new Point3D(-change, 0, 0);
+				car_rotate -= 10;
+				droid.setRotate(car_rotate);
 			}
 			if (keycode == KeyCode.D) {
-				delta = new Point3D(change, 0, 0);
+				//delta = new Point3D(change, 0, 0);
+				car_rotate += 10;
+				droid.setRotate(car_rotate);
 			}
 			if (keycode == KeyCode.W) {
-				delta = new Point3D(0, -change, 0);
-				car_x++;
+				//delta = new Point3D(0, -change, 0);
+				car_x += 2;
 			}
 			if (keycode == KeyCode.S) {
-				delta = new Point3D(0, change, 0);
-				car_x--;
+				//delta = new Point3D(0, change, 0);
+				car_x -= 2;
 			}
 			if (delta != null) {
 				Point3D delta2 = camera.localToParent(delta);
