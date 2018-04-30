@@ -55,11 +55,7 @@ public class CoolCar extends Application {
 	private double mouseDeltaX;
 	private double mouseDeltaY;
 	
-//	public int car_x = 0, car_y = -50, car_z = -700, car_rotate = 180, dx = 0, dz = 0;
-	
 	Sphere sphere;
-//	Group droid;
-//	Point3D car_r = new Point3D(0, 1, 0); 
 	Car car;
 	
 	// Import all images
@@ -73,6 +69,7 @@ public class CoolCar extends Application {
 	
 	// Set initial values for sun position (which are changed in update()).
 	int sphere_x = 0, sphere_y = -610, sphere_z = 1000;
+	boolean right_cam, left_cam;
 	
 	AmbientLight light;
 	
@@ -300,8 +297,14 @@ public class CoolCar extends Application {
 		
 		cameraDolly.setTranslateZ(car.getZ() - 350);
 		cameraDolly.setTranslateY(-100);
+		cameraDolly.setTranslateX(car.getX());
 
-		cameraDolly.setRotate(car.getAngle());
+		cameraDolly.setRotate(car.getAngle() + 180);
+		
+		if(right_cam) {
+			cameraDolly.setTranslateZ(car.getZ() + car.getAngle());
+			cameraDolly.setTranslateX(car.getX());
+		}
 	}
 
 	@Override
@@ -349,9 +352,11 @@ public class CoolCar extends Application {
 			}
 			if (keycode == KeyCode.A) {
 				car.left();
+				left_cam = true;
 			}
 			if (keycode == KeyCode.D) {
 				car.right();
+				right_cam = true;
 			}
 			if (keycode == KeyCode.W) {
 				car.forward();
