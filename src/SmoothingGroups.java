@@ -167,8 +167,8 @@ public class SmoothingGroups {
                 Edge[] adjFaceEdges = faceEdges[adjFace];
                 int adjEdgeInd = Arrays.asList(adjFaceEdges).indexOf(edge);
                 if (adjEdgeInd == -1) {
-                    System.out.println("Can't find edge " + edge + " in face " + adjFace);
-                    System.out.println(Arrays.asList(adjFaceEdges));
+                    //System.out.println("Can't find edge " + edge + " in face " + adjFace);
+                    //System.out.println(Arrays.asList(adjFaceEdges));
                     continue;
                 }
                 Edge adjEdge = adjFaceEdges[adjEdgeInd];

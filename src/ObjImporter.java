@@ -85,7 +85,7 @@ public class ObjImporter {
 
     static void log(String string) {
         if (debug) {
-            System.out.println(string);
+            //System.out.println(string);
         }
     }
 

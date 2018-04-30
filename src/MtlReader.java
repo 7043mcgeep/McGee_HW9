@@ -58,7 +58,7 @@ public class MtlReader {
 
 	static void log(String string) {
         if (debug) {
-            System.out.println(string);
+            //System.out.println(string);
         }
     }
 
@@ -72,7 +72,7 @@ public class MtlReader {
             log("Reading material from filename = " + mtlUrl);
             read(mtlUrl.openStream());
         } catch (FileNotFoundException ex) {
-            System.err.println("No material file found for obj. ["+fileUrl+"]");
+           // System.err.println("No material file found for obj. ["+fileUrl+"]");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -97,7 +97,7 @@ public class CoolCar extends Application {
 		root.getChildren().add(pl);
 		
 		// Box for ground
-		Box xAxis = new Box(1000, 400, 2000);
+		Box xAxis = new Box(10000, 400, 10000);
 		final PhongMaterial gnd = new PhongMaterial();
 		gnd.setDiffuseMap(ground);
 		gnd.setSpecularColor(Color.WHITE);
@@ -305,7 +305,7 @@ public class CoolCar extends Application {
 				increase = true;
 		}
 		
-		cameraDolly.setTranslateZ(car.getZ() - 350);
+		cameraDolly.setTranslateZ(car.getZ() - 450);
 		cameraDolly.setTranslateY(-100);
 		cameraDolly.setTranslateX(car.getX());
 
