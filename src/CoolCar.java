@@ -89,7 +89,7 @@ public class CoolCar extends Application {
 		root.getChildren().add(pl);
 		
 		// Box for ground
-		Box xAxis = new Box(1000, 400, 2000);
+		Box xAxis = new Box(10000, 400, 5000);
 		final PhongMaterial gnd = new PhongMaterial();
 		gnd.setDiffuseMap(ground);
 		gnd.setSpecularColor(Color.WHITE);
@@ -210,44 +210,7 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateY(-90);
 		sml_mtn2.setTranslateZ(0);
 		root.getChildren().add(sml_mtn2);
-		
-//		ObjView drvr = new ObjView();
-//		car = new Car("LEGO_CAR_B2.obj", drvr, car_x, car_z);
-//		// Bring in the cool car! Thanks to open-source site free3d.com and Art of Illusion.
-//		try {
-//			drvr.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
-//		} catch (IOException e) {
-//			System.out.println("Trouble loading model");
-//			e.printStackTrace();
-//		}
-//		droid = drvr.getRoot();
-//		droid.setScaleX(5);
-//		droid.setScaleY(-5);
-//		droid.setScaleZ(-5);
-//		droid.setTranslateX(car_x);
-//		droid.setTranslateY(car_y);
-//		droid.setTranslateZ(car_z);
-//		droid.setRotationAxis(car_r);
-//		droid.setRotate(car_rotate);
-//		
-//		root.getChildren().add(droid);
-//		for (Node n:droid.getChildren())
-//		{
-//			MeshView mv = (MeshView) n;
-//			Mesh m = ((MeshView) n).getMesh();
-//			System.out.println(n);
-//			System.out.println(m);
-//			TriangleMesh tm = (TriangleMesh) m;
-//			System.out.println("Faces: "+tm.getFaceElementSize());
-//			System.out.println(tm.getFaces() );
-//			System.out.println(tm.getFaceSmoothingGroups());
-//			System.out.println("Normals: "+tm.getNormalElementSize());
-//			System.out.println(tm.getNormals());
-//			System.out.println("Points: "+tm.getPointElementSize());
-//			System.out.println(tm.getPoints());
-//			System.out.println("TexCoords: "+tm.getTexCoordElementSize());
-//			System.out.println(tm.getTexCoords());
-//		}
+
 		
 		car = new Car("Car 1", 0.0, -700.0, root);
 //		root.getChildren().add(car.getDroid());
