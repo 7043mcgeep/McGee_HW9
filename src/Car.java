@@ -75,8 +75,9 @@ public class Car {
 	
 	public Group getDroid() { return droid; }
 	
-	public double getX() { return x; }
-	public double getZ() { return z; }
+	public double getAngle(){ return angle; }
+	public double getX(){ return x; }
+	public double getZ(){ return z; }
 	
 	public void update() {
 //		System.out.println("car.update()");

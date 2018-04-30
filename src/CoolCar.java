@@ -13,8 +13,6 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial; 
@@ -30,15 +28,16 @@ import javafx.util.Duration;
 /**
  * 
  * @author Patrick J. McGee
+ * 		   Alex Gattone
  * 
- * A 3D rendition of my first 2D assignment.
- * Loading the car will take a few seconds (and will take up more resources).
- * Pretty sunset included.
- * + Functional, "breathing" sun in a heliocentric universe.
- * + Cool car is imported.
+ * Car Coin Collector!
+ * Drive the fancy car and collect all the coins to win!
+ * If you fall off the platform, you lose!
+ * Collect all the coins as fast as you can. The less time you take,
+ * the higher score you get!
  * 
- * Assignment 8
- * 4/25/2018
+ * Assignment 9
+ * 5/4/2018
  */
 public class CoolCar extends Application {
 
@@ -63,8 +62,6 @@ public class CoolCar extends Application {
 //	Point3D car_r = new Point3D(0, 1, 0); 
 	Car car;
 	
-	static MediaPlayer mP;
-	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
 	Image mtn1 = new Image("red.jpg");
@@ -85,13 +82,6 @@ public class CoolCar extends Application {
 		// Soft light
 		light = new AmbientLight(Color.rgb(153, 153, 153));
 		root.getChildren().add(light);
-		
-			Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
-			//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
-			mP = new MediaPlayer(song);
-			mP.setCycleCount(20);
-			mP.play();
-			mP.setVolume(0.7);
 
 		PointLight pl = new PointLight();
 		pl.setTranslateX(100);
@@ -100,7 +90,7 @@ public class CoolCar extends Application {
 		root.getChildren().add(pl);
 		
 		// Box for ground
-		Box xAxis = new Box(10000, 400, 5000);
+		Box xAxis = new Box(1000, 400, 2000);
 		final PhongMaterial gnd = new PhongMaterial();
 		gnd.setDiffuseMap(ground);
 		gnd.setSpecularColor(Color.WHITE);
@@ -221,10 +211,8 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateY(-90);
 		sml_mtn2.setTranslateZ(0);
 		root.getChildren().add(sml_mtn2);
-
 		
 		car = new Car("Car 1", 0.0, -700.0, root);
-//		root.getChildren().add(car.getDroid());
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
@@ -241,13 +229,6 @@ public class CoolCar extends Application {
 	boolean set = true, east, rise, west;
 	int sun_z = -1000;
 	public void update() {
-	
-//		if(car_rotate == 45)
-//			dx = -45;
-//		
-//		droid.setTranslateX(car_x - dx);
-//		droid.setTranslateY(car_y);
-//		droid.setTranslateZ(car_z + dx);
 		car.update();
 		
 		cameraDolly.setTranslateZ(car.getZ()-1500);	// -1000
@@ -316,6 +297,11 @@ public class CoolCar extends Application {
 			if(i <= 1)
 				increase = true;
 		}
+		
+		cameraDolly.setTranslateZ(car.getZ() - 350);
+		cameraDolly.setTranslateY(-100);
+
+		cameraDolly.setRotate(car.getAngle());
 	}
 
 	@Override
@@ -336,10 +322,12 @@ public class CoolCar extends Application {
 		scene.setCamera(camera);
 		// translations through dolly
 		cameraDolly = new Group();
-		cameraDolly.setTranslateZ(car.getZ()-300);	// -1000
 		cameraDolly.setTranslateX(car.getX());
-		cameraDolly.setTranslateY(-100);	// -30
 		cameraDolly.getChildren().add(camera);
+		Point3D cam_r = new Point3D(0, 1, 0);
+		cameraDolly.setRotationAxis(cam_r);
+		cameraDolly.setRotate(180);
+		
 		sceneRoot.getChildren().add(cameraDolly);
 		// rotation transforms
 		Rotate xRotate = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
