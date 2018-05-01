@@ -66,7 +66,7 @@ public class CoolCar extends Application {
 	
 	Sphere sphere;
 	Car car;
-	alien a1;
+	alien a0,a1,a2,a3,a4,a5,a6,a7,a8,a9;
 	static MediaPlayer mP;
 	
 	// Import all images
@@ -79,7 +79,7 @@ public class CoolCar extends Application {
 	Image sun = new Image("sun.png");
 	
 	// Set initial values for sun position (which are changed in update()).
-	int sphere_x = 0, sphere_y = -610, sphere_z = 1000;
+	int sphere_x = 0, sphere_y = -1010, sphere_z = 2000;
 	boolean right_cam, left_cam;
 	
 	AmbientLight light;
@@ -229,7 +229,18 @@ public class CoolCar extends Application {
 		
 		car = new Car("Car 1", 0.0, -700.0, root);
 		
-		a1 = new alien("alien 1", 700.0, 2000.0, root);
+		for(int i = 0; i < 10; i ++) {
+			a0 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
+			a1 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+			a2 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
+			a3 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+			a4 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
+			a5 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+			a6 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
+			a7 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+			a8 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
+			a9 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+		}
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
@@ -361,19 +372,16 @@ public class CoolCar extends Application {
 				car.right();
 				right_cam = true;
 			}
+			if (keycode == KeyCode.SHIFT) {
+				speedboost = true;
+			}
 			if (keycode == KeyCode.W) {
-				car.forward();
-				if (keycode == KeyCode.SHIFT) {
-					speedboost = true;
 					car.forward();
-				}
 			}
 			if (keycode == KeyCode.S) {
 				car.backward();
 			}
-			if (keycode == KeyCode.SHIFT) {
-				speedboost = true;
-			}
+			
 		});
 
 		// Use mouse to control camera rotation
