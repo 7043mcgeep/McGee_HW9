@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -62,7 +63,7 @@ public class CoolCar extends Application {
 	
 	Sphere sphere;
 	Car car;
-	alien a0,a1,a2,a3,a4,a5,a6,a7,a8,a9;
+	alien a[] = new alien[30];
 	static MediaPlayer mP;
 	
 	// Import all images
@@ -225,18 +226,20 @@ public class CoolCar extends Application {
 		
 		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
 		
-		for(int i = 0; i < 10; i ++) {
-			a0 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
-			a1 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
-			a2 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
-			a3 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
-			a4 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
-			a5 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
-			a6 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
-			a7 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
-			a8 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
-			a9 = new alien("alien "+ i , 700.0 +(i*200), 2000.0-(i*200), root);
+		for(int i = 0; i <= 29; i++) {
+			Random rnd = new Random();
+			int randX = rnd.nextInt(10000);
+			int randY = rnd.nextInt(10000);
+			if(randX%2 == 0 && randY%2 != 0)
+				a[i] = new alien("alien "+ i , randX , randY, root);
+			else if (randX%2 != 0 && randY%2 == 0)
+				a[i] = new alien("alien "+ i , -randX , randY, root);
+			else if(randX%2 != 0 && randY%2 != 0)
+				a[i] = new alien("alien "+ i , randX , -randY, root);
+			else
+				a[i] = new alien("alien "+ i , -randX , -randY, root);
 		}
+	
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
