@@ -106,6 +106,7 @@ public class Car {
 	
 	public void right() {
 		angle = (angle + ANGLE_INC) % 360;
+		
 	}
 	
 	public void left() {

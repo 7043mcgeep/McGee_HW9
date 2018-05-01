@@ -24,6 +24,7 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -238,10 +239,6 @@ public class CoolCar extends Application {
 	public void update() {
 		car.update();
 		
-		cameraDolly.setTranslateZ(car.getZ()-1500);	// -1000
-		cameraDolly.setTranslateX(car.getX());
-		cameraDolly.setTranslateY(-100);	// -30
-		
 		// Move sun down and back until it hits lower limit
 		if(set && sphere_y < 100) {
 			sphere.setTranslateY(sphere_y);
@@ -305,16 +302,9 @@ public class CoolCar extends Application {
 				increase = true;
 		}
 		
+		cameraDolly.setTranslateX(car.getX());
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		cameraDolly.setTranslateY(-100);
-		cameraDolly.setTranslateX(car.getX());
-
-		cameraDolly.setRotate(car.getAngle() + 180);
-		
-		if(right_cam) {
-			cameraDolly.setTranslateZ(car.getZ() + car.getAngle());
-			cameraDolly.setTranslateX(car.getX());
-		}
 	}
 
 	@Override
@@ -337,12 +327,13 @@ public class CoolCar extends Application {
 		cameraDolly = new Group();
 		cameraDolly.setTranslateX(car.getX());
 		cameraDolly.getChildren().add(camera);
-		Point3D cam_r = new Point3D(0, 1, 0);
+		Point3D cam_r = new Point3D(0, car.getX(), 0);
 		cameraDolly.setRotationAxis(cam_r);
-		cameraDolly.setRotate(180);
+		cameraDolly.setRotate(car.getAngle());
 		
 		sceneRoot.getChildren().add(cameraDolly);
 		// rotation transforms
+
 		Rotate xRotate = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
 		Rotate yRotate = new Rotate(0, 0, 0, 0, Rotate.Y_AXIS);
 		camera.getTransforms().addAll(xRotate, yRotate);
@@ -405,6 +396,10 @@ public class CoolCar extends Application {
 			KeyCode c = me.getCode();
 			if (c == KeyCode.W || c == KeyCode.S) {
 				car.stop();
+			}
+			if(c == KeyCode.A || c == KeyCode.D) {
+				left_cam = false;
+				right_cam = false;
 			}
 		});
 
