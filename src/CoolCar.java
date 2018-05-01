@@ -77,7 +77,7 @@ public class CoolCar extends Application {
 	
 	// Set initial values for sun position (which are changed in update()).
 	int sphere_x = 0, sphere_y = -1010, sphere_z = 2000;
-	boolean right_cam, left_cam;
+	boolean right_cam, left_cam, falling;
 	
 	AmbientLight light;
 	
@@ -224,22 +224,21 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateZ(3800);
 		root.getChildren().add(sml_mtn2);
 		
-		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
+		car = new Car("Car 1", 0.0, -50.0, -700.0, root); 
 		
 		for(int i = 0; i <= 29; i++) {
 			Random rnd = new Random();
 			int randX = rnd.nextInt(10000);
-			int randY = rnd.nextInt(10000);
-			if(randX%2 == 0 && randY%2 != 0)
-				a[i] = new alien("alien "+ i , randX , randY, root);
-			else if (randX%2 != 0 && randY%2 == 0)
-				a[i] = new alien("alien "+ i , -randX , randY, root);
-			else if(randX%2 != 0 && randY%2 != 0)
-				a[i] = new alien("alien "+ i , randX , -randY, root);
+			int randZ = rnd.nextInt(10000);
+			if(randX%2 == 0 && randZ%2 != 0)
+				a[i] = new alien("alien "+ i , randX , 0, randZ, root);
+			else if (randX%2 != 0 && randZ%2 == 0)
+				a[i] = new alien("alien "+ i , -randX , 0, randZ, root);
+			else if(randX%2 != 0 && randZ%2 != 0)
+				a[i] = new alien("alien "+ i , randX , 0, -randZ, root);
 			else
-				a[i] = new alien("alien "+ i , -randX , -randY, root);
+				a[i] = new alien("alien "+ i , -randX , 0, -randZ, root);
 		}
-	
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
@@ -252,11 +251,26 @@ public class CoolCar extends Application {
 	 *  Update variables for one time step
 	 */
 	double i = 1;
+	int kills = 0;
 	public boolean increase = true;
 	boolean set = true, east, rise, west;
 	int sun_z = -1000;
 	public void update() {
 		car.update();
+		
+		for(int i = 0; i <= 29; i++) {
+
+			if(a[i].collisionBox().intersects(car.collisionBox()) && !a[i].isHit() && !a[i].exclude && kills < 30) {
+				a[i].exclude = true;
+				kills++;
+				System.out.println("ALIEN " + i + " HIT!");
+				System.out.println("Kills: " + kills + " / 30");
+				a[i].kill();
+			}
+			else if(kills == 30)
+				System.out.println("-----------------\nThey're all dead!\nYou Win!");
+				
+		}
 		
 		// Move sun down and back until it hits lower limit
 		if(set && sphere_y < 100) {
@@ -322,8 +336,8 @@ public class CoolCar extends Application {
 		}
 		
 		cameraDolly.setTranslateX(car.getX());
+		cameraDolly.setTranslateY(car.getY() - 50);
 		cameraDolly.setTranslateZ(car.getZ() - 450);
-		cameraDolly.setTranslateY(-100);
 		
 		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000) {
 			car.y+=10;

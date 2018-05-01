@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -78,6 +79,7 @@ public class Car {
 	
 	public double getAngle(){ return angle; }
 	public double getX(){ return x; }
+	public double getY(){ return y; }
 	public double getZ(){ return z; }
 	
 	public void update() {
@@ -113,6 +115,10 @@ public class Car {
 	
 	public void left() {
 		angle = (angle - ANGLE_INC) % 360;
+	}
+	
+	public BoundingBox collisionBox(){
+	    return new BoundingBox(x-30, y, z-30, 90, 60, 150);
 	}
 	
 }
