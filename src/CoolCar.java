@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javafx.animation.Animation;
@@ -44,12 +46,14 @@ import javafx.util.Duration;
  */
 public class CoolCar extends Application {
 
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	private static final int FPS = 30;
 	private PerspectiveCamera camera;
 	private Group cameraDolly;
 	private final double cameraQuantity = 10.0;
-	private final double sceneWidth = 900;
-	private final double sceneHeight = 900;
+	private final double sceneWidth = screenSize.getWidth();
+	private final double sceneHeight = screenSize.getHeight();
 
 	private double mousePosX;
 	private double mousePosY;
@@ -57,9 +61,12 @@ public class CoolCar extends Application {
 	private double mouseOldY;
 	private double mouseDeltaX;
 	private double mouseDeltaY;
+	 
+	public static boolean speedboost = false;
 	
 	Sphere sphere;
 	Car car;
+	alien a1;
 	static MediaPlayer mP;
 	
 	// Import all images
@@ -222,6 +229,8 @@ public class CoolCar extends Application {
 		
 		car = new Car("Car 1", 0.0, -700.0, root);
 		
+		a1 = new alien("alien 1", 700.0, 2000.0, root);
+		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
 
@@ -361,16 +370,16 @@ public class CoolCar extends Application {
 			}
 			if (keycode == KeyCode.W) {
 				car.forward();
+				if (keycode == KeyCode.SHIFT) {
+					speedboost = true;
+					car.forward();
+				}
 			}
 			if (keycode == KeyCode.S) {
 				car.backward();
 			}
-			if (delta != null) {
-				Point3D delta2 = camera.localToParent(delta);
-				cameraDolly.setTranslateX(cameraDolly.getTranslateX() + delta2.getX());
-				cameraDolly.setTranslateY(cameraDolly.getTranslateY() + delta2.getY());
-				cameraDolly.setTranslateZ(cameraDolly.getTranslateZ() + delta2.getZ());
-
+			if (keycode == KeyCode.SHIFT) {
+				speedboost = true;
 			}
 		});
 
@@ -400,6 +409,9 @@ public class CoolCar extends Application {
 			if(c == KeyCode.A || c == KeyCode.D) {
 				left_cam = false;
 				right_cam = false;
+			}
+			if(c == KeyCode.SHIFT) {
+				speedboost = false;
 			}
 		});
 

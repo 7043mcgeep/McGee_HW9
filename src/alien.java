@@ -7,53 +7,46 @@ import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 
-public class Car {
+public class alien {
 	
-	private static double VELOCITY  = 20;
-	private static int    ANGLE_INC = 2;
-	
-	private double angle, velocity;
+	private double angle;
 	private double x, z;
 	
 	private String name;
 	
-	private Group   droid;
+	private Group  alien;
 	private ObjView view;
 	
 	private Point3D car_r = new Point3D(0, 1, 0);
 	
-	public Car(String name, double x, double z, Group root) {
+	public alien(String name, double x, double z, Group root) {
 		
 		this.name = name;
-		
-		angle = 180;
-		velocity = 0;
 		
 		this.x = x;
 		this.z = z;
 		
 		view = new ObjView();
 		try {
-			view.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
+			view.load(ClassLoader.getSystemResource("alien.obj").toString());
 		} catch (IOException e) {
 			System.out.println("Trouble loading model");
 			e.printStackTrace();
 		}
 		
-		droid = view.getRoot();
+		alien = view.getRoot();
 		
-		droid.setScaleX(5);
-		droid.setScaleY(-5);
-		droid.setScaleZ(-5);
-		droid.setTranslateX(this.x);
-		droid.setTranslateY(-50);
-		droid.setTranslateZ(this.z);
-		droid.setRotationAxis(car_r);
-		droid.setRotate(angle);
+		alien.setScaleX(25);
+		alien.setScaleY(-25);
+		alien.setScaleZ(-25);
+		alien.setTranslateX(this.x);
+		alien.setTranslateY(-60);
+		alien.setTranslateZ(this.z);
+		alien.setRotationAxis(car_r);
 		
-		root.getChildren().add(droid);
+		root.getChildren().add(alien);
 		
-		for (Node n:droid.getChildren())
+		for (Node n:alien.getChildren())
 		{
 			MeshView mv = (MeshView) n;
 			Mesh m = ((MeshView) n).getMesh();
@@ -73,46 +66,19 @@ public class Car {
 		
 	}
 	
-	public Group getDroid() { return droid; }
+	public Group getDroid() { return alien; }
 	
 	public double getAngle(){ return angle; }
 	public double getX(){ return x; }
 	public double getZ(){ return z; }
 	
 	public void update() {
-//		System.out.println("car.update()");
-		z -= velocity * Math.cos(Math.toRadians(angle));
-		x -= velocity * Math.sin(Math.toRadians(angle));
 		
-		droid.setTranslateX(x);
-		droid.setTranslateY(-50);
-		droid.setTranslateZ(z);
-		droid.setRotate(angle);
+		alien.setTranslateX(x);
+		alien.setTranslateY(-50);
+		alien.setTranslateZ(z);
+		alien.setRotate(angle);
 	}
 	
-	public void forward() {
-		if(CoolCar.speedboost)
-			velocity = VELOCITY * 2;
-		else
-			velocity = VELOCITY;
-	}
-	
-	public void backward() {
-		System.out.println("Car.backward()");
-		velocity = VELOCITY * -1;
-	}
-	
-	public void stop() {
-		velocity = 0;
-	}
-	
-	public void right() {
-		angle = (angle + ANGLE_INC) % 360;
-		
-	}
-	
-	public void left() {
-		angle = (angle - ANGLE_INC) % 360;
-	}
 	
 }
