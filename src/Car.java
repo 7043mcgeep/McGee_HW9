@@ -9,7 +9,7 @@ import javafx.scene.shape.TriangleMesh;
 
 public class Car {
 	
-	private static double VELOCITY  = 20;
+	private static double VELOCITY  = 30;
 	private static int    ANGLE_INC = 2;
 	
 	private double angle, velocity;
@@ -91,10 +91,10 @@ public class Car {
 	}
 	
 	public void forward() {
-		if(CoolCar.speedboost)
-			velocity = VELOCITY * 2;
-		else
+		if(!CoolCar.speedboost)
 			velocity = VELOCITY;
+		else
+			velocity = VELOCITY * 2;
 	}
 	
 	public void backward() {

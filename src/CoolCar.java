@@ -105,7 +105,7 @@ public class CoolCar extends Application {
 		root.getChildren().add(pl);
 		
 		// Box for ground
-		Box xAxis = new Box(10000, 400, 10000);
+		Box xAxis = new Box(20000, 400, 20000);
 		final PhongMaterial gnd = new PhongMaterial();
 		gnd.setDiffuseMap(ground);
 		gnd.setSpecularColor(Color.WHITE);
@@ -353,13 +353,6 @@ public class CoolCar extends Application {
 			// What key did the user press?
 			KeyCode keycode = event.getCode();
 
-			Point3D delta = null;
-			if (keycode == KeyCode.COMMA) {
-				//delta = new Point3D(0, 0, change);
-			}
-			if (keycode == KeyCode.PERIOD) {
-				//delta = new Point3D(0, 0, -change);
-			}
 			if (keycode == KeyCode.A) {
 				car.left();
 				left_cam = true;
