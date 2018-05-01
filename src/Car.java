@@ -98,7 +98,6 @@ public class Car {
 	}
 	
 	public void backward() {
-		System.out.println("Car.backward()");
 		velocity = VELOCITY * -1;
 	}
 	

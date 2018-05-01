@@ -1,6 +1,5 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -9,7 +8,6 @@ import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
@@ -21,12 +19,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial; 
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,7 +47,7 @@ public class CoolCar extends Application {
 	private static final int FPS = 30;
 	private PerspectiveCamera camera;
 	private Group cameraDolly;
-	private final double cameraQuantity = 10.0;
+	
 	private final double sceneWidth = screenSize.getWidth();
 	private final double sceneHeight = screenSize.getHeight();
 
@@ -91,7 +87,7 @@ public class CoolCar extends Application {
 		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
-		mP.play();
+//		mP.play();
 		mP.setVolume(0.7);
 		
 		// Soft light
@@ -99,9 +95,9 @@ public class CoolCar extends Application {
 		root.getChildren().add(light);
 
 		PointLight pl = new PointLight();
-		pl.setTranslateX(100);
-		pl.setTranslateY(-100);
-		pl.setTranslateZ(-100);
+		pl.setTranslateX(5000);
+		pl.setTranslateY(-3000);
+		pl.setTranslateZ(-2000);
 		root.getChildren().add(pl);
 		
 		// Box for ground
@@ -160,7 +156,7 @@ public class CoolCar extends Application {
 		pyramid.setMaterial(pyrMaterial);
 		pyramid.setTranslateX(-50);
 		pyramid.setTranslateY(-210);
-		pyramid.setTranslateZ(200);
+		pyramid.setTranslateZ(4000);
 		root.getChildren().add(pyramid);
 		
 		// Another large mountain of a different texture
@@ -171,7 +167,7 @@ public class CoolCar extends Application {
 		pyr2.setMaterial(py2_map);
 		pyr2.setTranslateX(150);
 		pyr2.setTranslateY(-210);
-		pyr2.setTranslateZ(450);
+		pyr2.setTranslateZ(4250);
 		root.getChildren().add(pyr2);
 		
 		// Define a second, smaller size of a mountain.
@@ -212,7 +208,7 @@ public class CoolCar extends Application {
 		small_mtn.setMaterial(lightMtn);
 		small_mtn.setTranslateX(200);
 		small_mtn.setTranslateY(-90);
-		small_mtn.setTranslateZ(200);
+		small_mtn.setTranslateZ(4000);
 		root.getChildren().add(small_mtn);
 		
 		// Define another small mountain of a different texture
@@ -224,7 +220,7 @@ public class CoolCar extends Application {
 		sml_mtn2.setMaterial(rockMat);
 		sml_mtn2.setTranslateX(-240);
 		sml_mtn2.setTranslateY(-90);
-		sml_mtn2.setTranslateZ(0);
+		sml_mtn2.setTranslateZ(3800);
 		root.getChildren().add(sml_mtn2);
 		
 		car = new Car("Car 1", 0.0, -700.0, root);
@@ -325,6 +321,18 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateX(car.getX());
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		cameraDolly.setTranslateY(-100);
+		
+//		if(car.getX() <= -1.3152706622842602E-12) {
+//			
+//		}else if(car.getX() >= 1.186682748373786E-12) {
+//			
+//		}else if(car.getZ() <= -700) {
+//			System.out.println(car.getZ());
+//		}else if(car.getZ() >= 366.1903253300661) {
+//			
+//		}
+		
+		
 	}
 
 	@Override
@@ -360,7 +368,6 @@ public class CoolCar extends Application {
 		
 		// Use keyboard to control camera position
 		scene.setOnKeyPressed(event -> {
-			double change = cameraQuantity;
 			// What key did the user press?
 			KeyCode keycode = event.getCode();
 
