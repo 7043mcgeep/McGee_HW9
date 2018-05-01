@@ -13,7 +13,7 @@ public class Car {
 	private static int    ANGLE_INC = 2;
 	
 	private double angle, velocity;
-	private double x, z;
+	public double x, y, z;
 	
 	private String name;
 	
@@ -22,7 +22,7 @@ public class Car {
 	
 	private Point3D car_r = new Point3D(0, 1, 0);
 	
-	public Car(String name, double x, double z, Group root) {
+	public Car(String name, double x, double y, double z, Group root) {
 		
 		this.name = name;
 		
@@ -30,6 +30,7 @@ public class Car {
 		velocity = 0;
 		
 		this.x = x;
+		this.y = y;
 		this.z = z;
 		
 		view = new ObjView();
@@ -85,7 +86,7 @@ public class Car {
 		x -= velocity * Math.sin(Math.toRadians(angle));
 		
 		droid.setTranslateX(x);
-		droid.setTranslateY(-50);
+		droid.setTranslateY(y);
 		droid.setTranslateZ(z);
 		droid.setRotate(angle);
 	}

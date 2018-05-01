@@ -223,7 +223,7 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateZ(3800);
 		root.getChildren().add(sml_mtn2);
 		
-		car = new Car("Car 1", 0.0, -700.0, root);
+		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
 		
 		for(int i = 0; i < 10; i ++) {
 			a0 = new alien("alien "+ i , 700.0 -(i*200), 2000.0+(i*200), root);
@@ -322,15 +322,9 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		cameraDolly.setTranslateY(-100);
 		
-//		if(car.getX() <= -1.3152706622842602E-12) {
-//			
-//		}else if(car.getX() >= 1.186682748373786E-12) {
-//			
-//		}else if(car.getZ() <= -700) {
-//			System.out.println(car.getZ());
-//		}else if(car.getZ() >= 366.1903253300661) {
-//			
-//		}
+		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000) {
+			car.y+=10;
+		}
 		
 		
 	}
