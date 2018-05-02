@@ -90,6 +90,7 @@ public class CoolCar extends Application {
 		Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
 		beep = new AudioClip(ClassLoader.getSystemResource("zapsplat_public_places_supermarket_checkout_till_scan_beep_002_17741.mp3").toString());
 		hit = new AudioClip(ClassLoader.getSystemResource("leisure_video_game_retro_8bit_power_up_002.mp3").toString());
+		beep.setVolume(0.6);
 		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
@@ -353,7 +354,7 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
 		//warning sound
-		if(car.getZ() <= -9000 || car.getZ() >= 9000 || car.getX() <= -9000 || car.getX() >= 9000) {
+		if(car.getZ() <= -9000 || car.getZ() >= 9000 || car.getX() <= -9600 || car.getX() >= 9600) {
 			if(!beep.isPlaying())
 				beep.play();
 		}
@@ -361,7 +362,7 @@ public class CoolCar extends Application {
 			car.y+=15;
 		}
 		if(car.getY() > 1500) {
-			System.out.println("You fell off the edge! You lose!");
+			System.out.println("-----------------\nYou fell off the edge!\nYou lose!");
 			System.exit(0);
 		}
 		
