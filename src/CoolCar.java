@@ -14,6 +14,8 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -65,6 +67,7 @@ public class CoolCar extends Application {
 	Car car;
 	alien a[] = new alien[30];
 	static MediaPlayer mP;
+	public static AudioClip beep, hit;
 	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
@@ -85,6 +88,8 @@ public class CoolCar extends Application {
 	private void constructWorld(Group root) {
 		
 		Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
+		beep = new AudioClip(ClassLoader.getSystemResource("zapsplat_public_places_supermarket_checkout_till_scan_beep_002_17741.mp3").toString());
+		hit = new AudioClip(ClassLoader.getSystemResource("leisure_video_game_retro_8bit_power_up_002.mp3").toString());
 		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
@@ -246,8 +251,6 @@ public class CoolCar extends Application {
 				a[i] = new alien("alien "+ i , -randX , 0, -randZ, root);
 		}
 		
-		
-		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
 
@@ -274,6 +277,7 @@ public class CoolCar extends Application {
 				System.out.println("ALIEN " + i + " HIT!");
 				System.out.println("Kills: " + kills + " / 30");
 				a[i].kill();
+				hit.play();
 			}
 			else if(kills == 30) {
 				System.out.println("-----------------\nThey're all dead!\nYou Win!");
@@ -348,6 +352,11 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateY(car.getY() - 50);
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
+		//warning sound
+		if(car.getZ() <= -9000 || car.getZ() >= 9000 || car.getX() <= -9000 || car.getX() >= 9000) {
+			if(!beep.isPlaying())
+				beep.play();
+		}
 		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000 || car.getY() > -50) {
 			car.y+=15;
 		}
@@ -365,7 +374,7 @@ public class CoolCar extends Application {
 		// Build your Scene and Camera
 		Group sceneRoot = new Group();
 		constructWorld(sceneRoot);
-
+		
 		// Fourth parameter to indicate 3D world:
 		Scene scene = new Scene(sceneRoot, sceneWidth, sceneHeight, true);
 		ImagePattern pattern = new ImagePattern(sunset);
