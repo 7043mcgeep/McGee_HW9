@@ -228,8 +228,14 @@ public class CoolCar extends Application {
 		
 		for(int i = 0; i <= 29; i++) {
 			Random rnd = new Random();
-			int randX = rnd.nextInt(10000);
-			int randZ = rnd.nextInt(10000);
+			int randX = rnd.nextInt(9000);
+			int randZ = rnd.nextInt(9000);
+			//so they dont render in the pyramids
+			if(randX < 440 && randX > -430 && randZ < 4400 && randZ > 3600) {
+				randX = randX + 300;
+				randZ = randZ + 300;
+			}
+				//so they render even at negative locations
 			if(randX%2 == 0 && randZ%2 != 0)
 				a[i] = new alien("alien "+ i , randX , 0, randZ, root);
 			else if (randX%2 != 0 && randZ%2 == 0)
@@ -239,6 +245,8 @@ public class CoolCar extends Application {
 			else
 				a[i] = new alien("alien "+ i , -randX , 0, -randZ, root);
 		}
+		
+		
 		
 		// Add the main platform "xAxis"
 		root.getChildren().addAll(xAxis);
