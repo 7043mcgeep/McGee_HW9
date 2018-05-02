@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Random;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,7 +13,6 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -31,13 +29,13 @@ import javafx.util.Duration;
 
 /**
  * 
- * @author Patrick J. McGee
- * 		   Alex Gattone
+ * @authors Patrick J. McGee
+ * 		    Alex Gattone
  * 
- * Car Coin Collector!
- * Drive the fancy car and collect all the coins to win!
+ * Alien Hunting!
+ * Drive the fancy car and run over all aliens to win!
  * If you fall off the platform, you lose!
- * Collect all the coins as fast as you can. The less time you take,
+ * Kill them as fast as you can. The less time you take,
  * the higher score you get!
  * 
  * Assignment 9
@@ -60,7 +58,6 @@ public class CoolCar extends Application {
 	private double mouseOldY;
 	private double mouseDeltaX;
 	private double mouseDeltaY;
-	 
 	public static boolean speedboost = false;
 	
 	Sphere sphere;
@@ -79,7 +76,7 @@ public class CoolCar extends Application {
 	Image sun = new Image("sun.png");
 	
 	// Set initial values for sun position (which are changed in update()).
-	int sphere_x = 0, sphere_y = -1010, sphere_z = 2000;
+	int sphere_x = 0, sphere_y = -2510, sphere_z = 10300, score = 0, time = 0;
 	boolean right_cam, left_cam, falling;
 	
 	AmbientLight light;
@@ -91,7 +88,6 @@ public class CoolCar extends Application {
 		beep = new AudioClip(ClassLoader.getSystemResource("zapsplat_public_places_supermarket_checkout_till_scan_beep_002_17741.mp3").toString());
 		hit = new AudioClip(ClassLoader.getSystemResource("leisure_video_game_retro_8bit_power_up_002.mp3").toString());
 		beep.setVolume(0.6);
-		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
 		mP.play();
@@ -116,7 +112,7 @@ public class CoolCar extends Application {
 		xAxis.setTranslateY(190);
 
 		// The Sun.
-		sphere = new Sphere(50);
+		sphere = new Sphere(350);
 		final PhongMaterial sun_mat = new PhongMaterial();
 		sun_mat.setDiffuseMap(sun);
 		sun_mat.setSpecularColor(Color.WHITE);
@@ -258,6 +254,15 @@ public class CoolCar extends Application {
 		root.getChildren().addAll(sphere);
 
 	}
+
+	public static int getTimeSec(int base) {
+		int curr = 0, sec = 0;
+		
+		curr = (int) System.currentTimeMillis();
+		sec = (curr - base) / 1000;
+		
+		return sec;
+	}
 	
 	/**
 	 *  Update variables for one time step
@@ -266,22 +271,27 @@ public class CoolCar extends Application {
 	int kills = 0;
 	public boolean increase = true;
 	boolean set = true, east, rise, west;
-	int sun_z = -1000;
+	int sun_z = -10300;
+	int u_base = (int) System.currentTimeMillis();
 	public void update() {
+		
 		car.update();
+		
+		time = getTimeSec(u_base);
+		
+		System.out.println("Kills: " + kills + " / 30" + "\tScore: " + score + "\tTime: " + time);
 		
 		for(int i = 0; i <= 29; i++) {
 
 			if(a[i].collisionBox().intersects(car.collisionBox()) && !a[i].isHit() && !a[i].exclude && kills < 30) {
 				a[i].exclude = true;
 				kills++;
-				System.out.println("ALIEN " + i + " HIT!");
-				System.out.println("Kills: " + kills + " / 30");
+				score += 100;
 				a[i].kill();
 				hit.play();
 			}
 			else if(kills == 30) {
-				System.out.println("-----------------\nThey're all dead!\nYou Win!");
+				System.out.println("-----------------\nYou Win!\tFinal Score: " + (score-time));
 				System.exit(0);
 			}
 		}
@@ -289,7 +299,7 @@ public class CoolCar extends Application {
 		// Move sun down and back until it hits lower limit
 		if(set && sphere_y < 100) {
 			sphere.setTranslateY(sphere_y);
-			sphere_y++;
+			sphere_y  += 10;
 		}
 		
 		// Bring sun to east if it is down
@@ -304,13 +314,13 @@ public class CoolCar extends Application {
 	    	rise = true; 
 		}
 	    
-	    // Sun must return at 0, -610, 1000 (starting point) for one cycle.
+	    // Sun must return at 0, -1010, 10300 (starting point) for one cycle.
 	    if(rise) {
-	    	if(sphere_y > -610) {
-				sphere_y--;
+	    	if(sphere_y > -2510) {
+				sphere_y -= 10;
 				sphere.setTranslateY(sphere_y);
 	    	}
-			else if(sphere_y <= 610) {
+			else if(sphere_y <= 2510) {
 		    	rise = false;
 		    	west = true;
 			}
@@ -318,14 +328,14 @@ public class CoolCar extends Application {
 	    
 	    // Sun will move west... long day!
 	    if(west) {
-	    	if(sun_z < 1000) {
+	    	if(sun_z < 10300) {
 		    	sphere.setTranslateZ(sun_z);
-		    	sun_z++;
+		    	sun_z += 10;
 	    	}
-	    	else if(sun_z >= 1000) {
+	    	else if(sun_z >= 10300) {
 		    	west = false;
 		    	set = true;			// Set sun in the west again
-		    	sun_z = -1000;		// Reset temporary variable
+		    	sun_z = 10300;		// Reset temporary variable
 	    	}
 	    }
 		
@@ -468,7 +478,7 @@ public class CoolCar extends Application {
 		mainLoop.setCycleCount(Animation.INDEFINITE);
 		mainLoop.play();
 		
-		primaryStage.setTitle("Cool Car!");
+		primaryStage.setTitle("Alien Hunting!");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
