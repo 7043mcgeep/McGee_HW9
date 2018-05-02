@@ -62,6 +62,7 @@ public class CoolCar extends Application {
 	
 	Sphere sphere;
 	Car car;
+	MotherShip mothership;
 	alien a[] = new alien[30];
 	static MediaPlayer mP;
 	public static AudioClip beep, hit;
@@ -226,7 +227,8 @@ public class CoolCar extends Application {
 		sml_mtn2.setTranslateZ(3800);
 		root.getChildren().add(sml_mtn2);
 		
-		car = new Car("Car 1", 0.0, -50.0, -700.0, root); 
+		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
+		mothership = new MotherShip("MotherShip 1", 0.0, -600.0, 3000, root);
 		
 		for(int i = 0; i <= 29; i++) {
 			Random rnd = new Random();
@@ -273,9 +275,30 @@ public class CoolCar extends Application {
 	boolean set = true, east, rise, west;
 	int sun_z = -10300;
 	int u_base = (int) System.currentTimeMillis();
+	int ship_up = 0;
+	int ship_down = 0;
 	public void update() {
 		
 		car.update();
+		
+		if(ship_up < 200) {
+			mothership.up();
+			ship_up++;
+		}
+		else if(ship_up >= 200) {
+			
+			if(ship_down < 200) {
+				mothership.down();
+				ship_down++;
+			}
+			if(ship_down >= 200) {
+				ship_up = 0;
+				ship_down = 0;
+			}
+		}
+		
+		mothership.right();
+		mothership.update();
 		
 		time = getTimeSec(u_base);
 		

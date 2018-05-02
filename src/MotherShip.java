@@ -8,10 +8,10 @@ import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 
-public class Car {
-	
+public class MotherShip {
+
 	private static double VELOCITY  = 30;
-	private static int    ANGLE_INC = 2;
+	private static int    ANGLE_INC = 1;
 	
 	private double angle, velocity;
 	public double x, y, z;
@@ -23,7 +23,7 @@ public class Car {
 	
 	private Point3D car_r = new Point3D(0, 1, 0);
 	
-	public Car(String name, double x, double y, double z, Group root) {
+	public MotherShip(String name, double x, double y, double z, Group root) {
 		
 		this.name = name;
 		
@@ -36,7 +36,7 @@ public class Car {
 		
 		view = new ObjView();
 		try {
-			view.load(ClassLoader.getSystemResource("LEGO_CAR_B2.obj").toString());
+			view.load(ClassLoader.getSystemResource("SpaceShipDetailed.obj").toString());
 		} catch (IOException e) {
 			System.out.println("Trouble loading model");
 			e.printStackTrace();
@@ -44,11 +44,10 @@ public class Car {
 		
 		droid = view.getRoot();
 		
-		droid.setScaleX(5);
-		droid.setScaleY(-5);
-		droid.setScaleZ(-5);
+		droid.setScaleX(7);
+		droid.setScaleY(-7);
+		droid.setScaleZ(-7);
 		droid.setTranslateX(this.x);
-		droid.setTranslateY(-50);
 		droid.setTranslateZ(this.z);
 		droid.setRotationAxis(car_r);
 		droid.setRotate(angle);
@@ -84,19 +83,12 @@ public class Car {
 		droid.setRotate(angle);
 	}
 	
-	public void forward() {
-		if(!CoolCar.speedboost)
-			velocity = VELOCITY;
-		else
-			velocity = VELOCITY * 2;
+	public void up() {
+		droid.setTranslateY(y++);
 	}
 	
-	public void backward() {
-		velocity = VELOCITY * -1;
-	}
-	
-	public void stop() {
-		velocity = 0;
+	public void down() {
+		droid.setTranslateY(y--);
 	}
 	
 	public void right() {
@@ -111,5 +103,4 @@ public class Car {
 	public BoundingBox collisionBox(){
 	    return new BoundingBox(x-30, y, z-30, 90, 60, 150);
 	}
-	
 }
