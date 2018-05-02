@@ -267,9 +267,10 @@ public class CoolCar extends Application {
 				System.out.println("Kills: " + kills + " / 30");
 				a[i].kill();
 			}
-			else if(kills == 30)
+			else if(kills == 30) {
 				System.out.println("-----------------\nThey're all dead!\nYou Win!");
-				
+				System.exit(0);
+			}
 		}
 		
 		// Move sun down and back until it hits lower limit
@@ -339,9 +340,12 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateY(car.getY() - 50);
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
-		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000) {
-			car.y+=10;
+		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000 || car.getY() > -50) {
+			car.y+=15;
+		}
+		if(car.getY() > 1500) {
 			System.out.println("You fell off the edge! You lose!");
+			System.exit(0);
 		}
 		
 		
