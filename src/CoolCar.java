@@ -88,7 +88,7 @@ public class CoolCar extends Application {
 		//occasionally the music just stops and i'm not sure why, the only time i tell it to is when you restart at the end of the game
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
-//		mP.play();
+		mP.play();
 		mP.setVolume(0.7);
 		
 		// Soft light
@@ -341,6 +341,7 @@ public class CoolCar extends Application {
 		
 		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000) {
 			car.y+=10;
+			System.out.println("You fell off the edge! You lose!");
 		}
 		
 		
