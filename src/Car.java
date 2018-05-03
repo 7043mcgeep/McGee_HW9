@@ -14,6 +14,7 @@ public class Car {
 	private static int    ANGLE_INC = 2;
 	
 	private double angle, velocity;
+	public boolean backwards;
 	public double x, y, z;
 	
 	private String name;
@@ -67,14 +68,12 @@ public class Car {
 	}
 	
 	public Group getDroid() { return droid; }
-	
 	public double getAngle(){ return angle; }
 	public double getX(){ return x; }
 	public double getY(){ return y; }
 	public double getZ(){ return z; }
 	
 	public void update() {
-//		System.out.println("car.update()");
 		z -= velocity * Math.cos(Math.toRadians(angle));
 		x -= velocity * Math.sin(Math.toRadians(angle));
 		
@@ -92,6 +91,7 @@ public class Car {
 	}
 	
 	public void backward() {
+		backwards = true;
 		velocity = VELOCITY * -1;
 	}
 	
@@ -100,12 +100,18 @@ public class Car {
 	}
 	
 	public void right() {
-		angle = (angle + ANGLE_INC) % 360;
+		if(backwards)
+			angle = (angle - ANGLE_INC) % 360;
+		else
+			angle = (angle + ANGLE_INC) % 360;
 		
 	}
 	
 	public void left() {
-		angle = (angle - ANGLE_INC) % 360;
+		if(backwards)
+			angle = (angle + ANGLE_INC) % 360;
+		else
+			angle = (angle - ANGLE_INC) % 360;
 	}
 	
 	public BoundingBox collisionBox(){

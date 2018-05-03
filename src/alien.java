@@ -68,7 +68,7 @@ public class alien {
 	}
 	
 	public BoundingBox collisionBox(){
-	    return new BoundingBox(x, 0, z, 60, 50, 60);
+	    return new BoundingBox(x, 0, z, 30, 80, 30);
 	}
 	
 	public void update() {

@@ -64,6 +64,8 @@ public class CoolCar extends Application {
 	Car car;
 	MotherShip mothership;
 	alien a[] = new alien[20];
+	Box a_box;
+	Box car_box = new Box();
 	static MediaPlayer mP;
 	public static AudioClip beep, hit;
 	
@@ -230,7 +232,16 @@ public class CoolCar extends Application {
 		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
 		mothership = new MotherShip("MotherShip 1", 0.0, -600.0, 3000, root);
 		
+		/* Box for testing car's bounding box: */
+		car_box = new Box(90, 60, 150);
+		car_box.setTranslateX(car.getX());
+		car_box.setTranslateY(car.getY());
+		car_box.setTranslateZ(car.getZ());
+		
+		root.getChildren().addAll(a_box);
+		
 		for(int i = 0; i <= 19; i++) {
+			
 			Random rnd = new Random();
 			int randX = rnd.nextInt(5000);
 			int randZ = rnd.nextInt(5000);
@@ -248,6 +259,17 @@ public class CoolCar extends Application {
 				a[i] = new alien("alien "+ i , randX , 0, -randZ, root);
 			else
 				a[i] = new alien("alien "+ i , -randX , 0, -randZ, root);
+			
+			/*
+			if(i == 0) {
+				// Box for testing bounding boxes of aliens.
+				a_box = new Box(30, 80, 50);
+				a_box.setTranslateX(a[i].getX());
+				a_box.setTranslateY(-50);
+				a_box.setTranslateZ(a[i].getZ());
+				
+				root.getChildren().addAll(a_box);
+			} */
 		}
 		
 		// Add the main platform "xAxis"
@@ -277,6 +299,7 @@ public class CoolCar extends Application {
 	int u_base = (int) System.currentTimeMillis();
 	int ship_up = 0;
 	int ship_down = 0;
+	int lastsec = 0;
 	public void update() {
 		
 		car.update();
@@ -302,7 +325,11 @@ public class CoolCar extends Application {
 		
 		time = getTimeSec(u_base);
 		
-		System.out.println("Kills: " + kills + " / 20" + "\tScore: " + score + "\tTime: " + time);
+		// Print kills, score, time each second.
+		if(time != lastsec) {
+			System.out.println("Kills: " + kills + " / 20" + "\tScore: " + score + "\tTime: " + time);
+			lastsec = time;
+		}
 		
 		for(int i = 0; i <= 19; i++) {
 
@@ -312,6 +339,9 @@ public class CoolCar extends Application {
 				score += 100;
 				a[i].kill();
 				hit.play();
+				
+				// Print kills, score, and time to update once an alien is hit
+				System.out.println("Kills: " + kills + " / 20" + "\tScore: " + score + "\tTime: " + time);
 			}
 			else if(kills == 20) {
 				System.out.println("-----------------\nYou Win!\tFinal Score: " + (score-time));
@@ -450,7 +480,7 @@ public class CoolCar extends Application {
 				speedboost = true;
 			}
 			if (keycode == KeyCode.W) {
-					car.forward();
+				car.forward();
 			}
 			if (keycode == KeyCode.S) {
 				car.backward();
@@ -479,6 +509,7 @@ public class CoolCar extends Application {
 		scene.setOnKeyReleased(me -> {
 			KeyCode c = me.getCode();
 			if (c == KeyCode.W || c == KeyCode.S) {
+				car.backwards = false;
 				car.stop();
 			}
 			if(c == KeyCode.A || c == KeyCode.D) {
