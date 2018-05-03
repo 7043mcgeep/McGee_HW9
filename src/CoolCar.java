@@ -63,7 +63,7 @@ public class CoolCar extends Application {
 	Sphere sphere;
 	Car car;
 	MotherShip mothership;
-	alien a[] = new alien[30];
+	alien a[] = new alien[20];
 	static MediaPlayer mP;
 	public static AudioClip beep, hit;
 	
@@ -105,7 +105,7 @@ public class CoolCar extends Application {
 		root.getChildren().add(pl);
 		
 		// Box for ground
-		Box xAxis = new Box(20000, 400, 20000);
+		Box xAxis = new Box(12000, 400, 12000);
 		final PhongMaterial gnd = new PhongMaterial();
 		gnd.setDiffuseMap(ground);
 		gnd.setSpecularColor(Color.WHITE);
@@ -230,10 +230,10 @@ public class CoolCar extends Application {
 		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
 		mothership = new MotherShip("MotherShip 1", 0.0, -600.0, 3000, root);
 		
-		for(int i = 0; i <= 29; i++) {
+		for(int i = 0; i <= 19; i++) {
 			Random rnd = new Random();
-			int randX = rnd.nextInt(9000);
-			int randZ = rnd.nextInt(9000);
+			int randX = rnd.nextInt(5000);
+			int randZ = rnd.nextInt(5000);
 			//so they dont render in the pyramids
 			if(randX < 440 && randX > -430 && randZ < 4400 && randZ > 3600) {
 				randX = randX + 300;
@@ -302,18 +302,18 @@ public class CoolCar extends Application {
 		
 		time = getTimeSec(u_base);
 		
-		System.out.println("Kills: " + kills + " / 30" + "\tScore: " + score + "\tTime: " + time);
+		System.out.println("Kills: " + kills + " / 20" + "\tScore: " + score + "\tTime: " + time);
 		
-		for(int i = 0; i <= 29; i++) {
+		for(int i = 0; i <= 19; i++) {
 
-			if(a[i].collisionBox().intersects(car.collisionBox()) && !a[i].isHit() && !a[i].exclude && kills < 30) {
+			if(a[i].collisionBox().intersects(car.collisionBox()) && !a[i].isHit() && !a[i].exclude && kills < 20) {
 				a[i].exclude = true;
 				kills++;
 				score += 100;
 				a[i].kill();
 				hit.play();
 			}
-			else if(kills == 30) {
+			else if(kills == 20) {
 				System.out.println("-----------------\nYou Win!\tFinal Score: " + (score-time));
 				System.exit(0);
 			}
@@ -387,11 +387,11 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
 		//warning sound
-		if(car.getZ() <= -9000 || car.getZ() >= 9000 || car.getX() <= -9600 || car.getX() >= 9600) {
+		if(car.getZ() <= -5200 || car.getZ() >= 5200 || car.getX() <= -5600 || car.getX() >= 5600) {
 			if(!beep.isPlaying())
 				beep.play();
 		}
-		if(car.getZ() <= -10000 || car.getZ() >= 10000 || car.getX() <= -10000 || car.getX() >= 10000 || car.getY() > -50) {
+		if(car.getZ() <= -6000 || car.getZ() >= 6000 || car.getX() <= -6000 || car.getX() >= 6000 || car.getY() > -50) {
 			car.y+=15;
 		}
 		if(car.getY() > 1500) {
