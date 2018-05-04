@@ -292,6 +292,7 @@ public class CoolCar extends Application {
 	int ship_up = 0;
 	int ship_down = 0;
 	int lastsec = 0;
+	double temp_x, temp_y, temp_z;
 	public void update() {
 		
 		car.update();
@@ -408,6 +409,28 @@ public class CoolCar extends Application {
 		cameraDolly.setTranslateY(car.getY() - 50);
 		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
+		//temp_x = car.getX() * Math.cos(Math.toRadians(car.getAngle()));
+		Point3D cam_r = new Point3D(0, car.getX(), 0);
+		cameraDolly.setRotationAxis(cam_r);
+		
+//		if(right_cam) {
+//			temp_x = car.getX() + Math.sin(Math.toRadians(car.getAngle()));
+//			temp_z = car.getZ() + Math.cos(Math.toRadians(car.getAngle()));
+//			cameraDolly.setTranslateX(temp_x);
+//			cameraDolly.setTranslateY(car.getY() - 50);
+//			cameraDolly.setTranslateZ(temp_z - 450);
+//			cameraDolly.setRotate(0-(car.getAngle() + 180));
+//		}
+//		
+//		if(left_cam) {
+//			temp_x = car.getX() - Math.sin(Math.toRadians(car.getAngle()));
+//			temp_z = car.getZ() - Math.cos(Math.toRadians(car.getAngle()));
+//			cameraDolly.setTranslateX(temp_x);
+//			cameraDolly.setTranslateY(car.getY() - 50);
+//			cameraDolly.setTranslateZ(temp_z - 450);
+//			cameraDolly.setRotate(car.getAngle() + 180);
+//		}
+		
 		//warning sound
 		if(car.getZ() <= -5200 || car.getZ() >= 5200 || car.getX() <= -5600 || car.getX() >= 5600) {
 			if(!beep.isPlaying())
@@ -442,11 +465,12 @@ public class CoolCar extends Application {
 		scene.setCamera(camera);
 		// translations through dolly
 		cameraDolly = new Group();
-		cameraDolly.setTranslateX(car.getX());
+//		cameraDolly.setTranslateX(car.getX());
+//		cameraDolly.getChildren().add(camera);
+//		Point3D cam_r = new Point3D(0, car.getX(), 0);
+//		cameraDolly.setRotationAxis(cam_r);
+//		cameraDolly.setRotate(car.getAngle());
 		cameraDolly.getChildren().add(camera);
-		Point3D cam_r = new Point3D(0, car.getX(), 0);
-		cameraDolly.setRotationAxis(cam_r);
-		cameraDolly.setRotate(car.getAngle());
 		
 		sceneRoot.getChildren().add(cameraDolly);
 		// rotation transforms
