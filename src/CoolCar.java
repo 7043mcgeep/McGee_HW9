@@ -65,7 +65,7 @@ public class CoolCar extends Application {
 	MotherShip mothership;
 	alien a[] = new alien[20];
 	Box a_box;
-	Box car_box = new Box();
+	public Box car_box;
 	static MediaPlayer mP;
 	public static AudioClip beep, hit;
 	
@@ -231,14 +231,6 @@ public class CoolCar extends Application {
 		
 		car = new Car("Car 1", 0.0, -50.0, -700.0, root);
 		mothership = new MotherShip("MotherShip 1", 0.0, -600.0, 3000, root);
-		
-		/* Box for testing car's bounding box: */
-		car_box = new Box(90, 60, 150);
-		car_box.setTranslateX(car.getX());
-		car_box.setTranslateY(car.getY());
-		car_box.setTranslateZ(car.getZ());
-		
-		root.getChildren().addAll(a_box);
 		
 		for(int i = 0; i <= 19; i++) {
 			
