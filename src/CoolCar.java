@@ -97,10 +97,10 @@ public class CoolCar extends Application {
 		mP.setVolume(0.7);
 		
 		// Soft light
-		light = new AmbientLight(Color.rgb(153, 153, 153));
+		light = new AmbientLight(Color.rgb(175, 175, 175));
 		root.getChildren().add(light);
 
-		PointLight pl = new PointLight();
+		PointLight pl = new PointLight(Color.ORANGERED);
 		pl.setTranslateX(5000);
 		pl.setTranslateY(-3000);
 		pl.setTranslateZ(-2000);
