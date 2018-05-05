@@ -67,7 +67,7 @@ public class CoolCar extends Application {
 	Box a_box;
 	public Box car_box;
 	static MediaPlayer mP;
-	public static AudioClip beep, hit;
+	public static AudioClip beep, hit, engine, start, horn;
 	
 	// Import all images
 	Image sunset = new Image("sunset.jpg");
@@ -80,7 +80,7 @@ public class CoolCar extends Application {
 	
 	// Set initial values for sun position (which are changed in update()).
 	int sphere_x = 0, sphere_y = -2510, sphere_z = 10300, score = 0, time = 0;
-	boolean right_cam, left_cam, falling;
+	boolean right_cam, left_cam, falling, play_engine;
 	
 	AmbientLight light;
 	
@@ -90,11 +90,16 @@ public class CoolCar extends Application {
 		Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
 		beep = new AudioClip(ClassLoader.getSystemResource("zapsplat_public_places_supermarket_checkout_till_scan_beep_002_17741.mp3").toString());
 		hit = new AudioClip(ClassLoader.getSystemResource("leisure_video_game_retro_8bit_power_up_002.mp3").toString());
-		beep.setVolume(0.6);
+		horn = new AudioClip(ClassLoader.getSystemResource("horn.wav").toString());
+		start = new AudioClip(ClassLoader.getSystemResource("start.wav").toString());
+		engine = new AudioClip(ClassLoader.getSystemResource("engine2.wav").toString());
+		engine.setVolume(0.1);
+		hit.setVolume(0.1);
+		beep.setVolume(0.1);
 		mP = new MediaPlayer(song);
 		mP.setCycleCount(20);
 		mP.play();
-		mP.setVolume(0.7);
+		mP.setVolume(0.5);
 		
 		// Soft light
 		light = new AmbientLight(Color.rgb(175, 175, 175));
@@ -324,6 +329,11 @@ public class CoolCar extends Application {
 			lastsec = time;
 		}
 		
+//		if(time % 3 == 0)
+//			play_engine = true;
+//		else
+//			play_engine = false;
+		
 		for(int i = 0; i <= 19; i++) {
 
 			if(a[i].collisionBox().intersects(car.collisionBox()) && !a[i].isHit() && !a[i].exclude && kills < 20) {
@@ -405,9 +415,9 @@ public class CoolCar extends Application {
 				increase = true;
 		}
 		
-		cameraDolly.setTranslateX(car.getX());
-		cameraDolly.setTranslateY(car.getY() - 50);
-		cameraDolly.setTranslateZ(car.getZ() - 450);
+//		cameraDolly.setTranslateX(car.getX());
+//		cameraDolly.setTranslateY(car.getY() - 50);
+//		cameraDolly.setTranslateZ(car.getZ() - 450);
 		
 		//temp_x = car.getX() * Math.cos(Math.toRadians(car.getAngle()));
 		Point3D cam_r = new Point3D(0, car.getX(), 0);
@@ -496,11 +506,22 @@ public class CoolCar extends Application {
 				speedboost = true;
 			}
 			if (keycode == KeyCode.W) {
+				engine.play();
 				car.forward();
 			}
 			if (keycode == KeyCode.S) {
+				engine.play();
 				car.backward();
 			}
+			if (keycode == KeyCode.E) {
+				horn.play();
+			}
+//			if (keycode == KeyCode.RIGHT) {
+//				cameraDolly.setTranslateX(car.getX() + 200);
+//				cameraDolly.setTranslateY(car.getY() - 50);
+//				cameraDolly.setTranslateZ(car.getZ() - 450);
+//				cameraDolly.setRotate(180);
+//			}
 			
 		});
 
@@ -526,6 +547,7 @@ public class CoolCar extends Application {
 			KeyCode c = me.getCode();
 			if (c == KeyCode.W || c == KeyCode.S) {
 				car.backwards = false;
+				engine.stop();
 				car.stop();
 			}
 			if(c == KeyCode.A || c == KeyCode.D) {
@@ -534,6 +556,9 @@ public class CoolCar extends Application {
 			}
 			if(c == KeyCode.SHIFT) {
 				speedboost = false;
+			}
+			if(c == KeyCode.E) {
+				horn.stop();
 			}
 		});
 
@@ -551,6 +576,7 @@ public class CoolCar extends Application {
 		primaryStage.setTitle("Alien Hunting!");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		start.play();
 	}
 
 	public static void main(String[] args) {
