@@ -59,6 +59,7 @@ public class CoolCar extends Application {
 	private double mouseDeltaX;
 	private double mouseDeltaY;
 	public static boolean speedboost = false;
+	double temp_x, temp_y, temp_z;
 	
 	Sphere sphere;
 	Car car;
@@ -80,7 +81,7 @@ public class CoolCar extends Application {
 	
 	// Set initial values for sun position (which are changed in update()).
 	int sphere_x = 0, sphere_y = -2510, sphere_z = 10300, score = 0, time = 0;
-	boolean right_cam, left_cam, falling, play_engine;
+	boolean right_cam, left_cam, back_cam, up_cam = true, falling, play_engine;
 	
 	AmbientLight light;
 	
@@ -297,7 +298,6 @@ public class CoolCar extends Application {
 	int ship_up = 0;
 	int ship_down = 0;
 	int lastsec = 0;
-	double temp_x, temp_y, temp_z;
 	public void update() {
 		
 		car.update();
@@ -328,11 +328,6 @@ public class CoolCar extends Application {
 			System.out.println("Kills: " + kills + " / 20" + "\tScore: " + score + "\tTime: " + time);
 			lastsec = time;
 		}
-		
-//		if(time % 3 == 0)
-//			play_engine = true;
-//		else
-//			play_engine = false;
 		
 		for(int i = 0; i <= 19; i++) {
 
@@ -415,31 +410,24 @@ public class CoolCar extends Application {
 				increase = true;
 		}
 		
-//		cameraDolly.setTranslateX(car.getX());
-//		cameraDolly.setTranslateY(car.getY() - 50);
-//		cameraDolly.setTranslateZ(car.getZ() - 450);
+		cameraDolly.setTranslateY(car.getY() - 50);
 		
-		//temp_x = car.getX() * Math.cos(Math.toRadians(car.getAngle()));
-		Point3D cam_r = new Point3D(0, car.getX(), 0);
-		cameraDolly.setRotationAxis(cam_r);
-		
-//		if(right_cam) {
-//			temp_x = car.getX() + Math.sin(Math.toRadians(car.getAngle()));
-//			temp_z = car.getZ() + Math.cos(Math.toRadians(car.getAngle()));
-//			cameraDolly.setTranslateX(temp_x);
-//			cameraDolly.setTranslateY(car.getY() - 50);
-//			cameraDolly.setTranslateZ(temp_z - 450);
-//			cameraDolly.setRotate(0-(car.getAngle() + 180));
-//		}
-//		
-//		if(left_cam) {
-//			temp_x = car.getX() - Math.sin(Math.toRadians(car.getAngle()));
-//			temp_z = car.getZ() - Math.cos(Math.toRadians(car.getAngle()));
-//			cameraDolly.setTranslateX(temp_x);
-//			cameraDolly.setTranslateY(car.getY() - 50);
-//			cameraDolly.setTranslateZ(temp_z - 450);
-//			cameraDolly.setRotate(car.getAngle() + 180);
-//		}
+		if(back_cam) {
+			cameraDolly.setTranslateX(car.getX());
+			cameraDolly.setTranslateZ(car.getZ() + 450);
+		}
+		else if(up_cam) {
+			cameraDolly.setTranslateX(car.getX());
+			cameraDolly.setTranslateZ(car.getZ() - 450);
+		}
+		else if(left_cam) {
+			cameraDolly.setTranslateX(car.getX() + 450);
+			cameraDolly.setTranslateZ(car.getZ());
+		}
+		else if(right_cam) {
+			cameraDolly.setTranslateX(car.getX() - 450);
+			cameraDolly.setTranslateZ(car.getZ());
+		}
 		
 		//warning sound
 		if(car.getZ() <= -5200 || car.getZ() >= 5200 || car.getX() <= -5600 || car.getX() >= 5600) {
@@ -475,11 +463,6 @@ public class CoolCar extends Application {
 		scene.setCamera(camera);
 		// translations through dolly
 		cameraDolly = new Group();
-//		cameraDolly.setTranslateX(car.getX());
-//		cameraDolly.getChildren().add(camera);
-//		Point3D cam_r = new Point3D(0, car.getX(), 0);
-//		cameraDolly.setRotationAxis(cam_r);
-//		cameraDolly.setRotate(car.getAngle());
 		cameraDolly.getChildren().add(camera);
 		
 		sceneRoot.getChildren().add(cameraDolly);
@@ -496,7 +479,7 @@ public class CoolCar extends Application {
 
 			if (keycode == KeyCode.A) {
 				car.left();
-				left_cam = true;
+//				left_cam = true;
 			}
 			if (keycode == KeyCode.D) {
 				car.right();
@@ -516,12 +499,62 @@ public class CoolCar extends Application {
 			if (keycode == KeyCode.E) {
 				horn.play();
 			}
-//			if (keycode == KeyCode.RIGHT) {
-//				cameraDolly.setTranslateX(car.getX() + 200);
-//				cameraDolly.setTranslateY(car.getY() - 50);
-//				cameraDolly.setTranslateZ(car.getZ() - 450);
-//				cameraDolly.setRotate(180);
-//			}
+			if (keycode == KeyCode.DOWN) {				// Face camera SOUTH direction
+				temp_x = car.getX();
+				temp_z = car.getZ() + 450;
+				cameraDolly.setTranslateX(temp_x);
+				back_cam = true;
+				left_cam = false;
+				right_cam = false;
+				up_cam = false;
+				cameraDolly.setTranslateZ(temp_z);
+				
+				Point3D cam_r = new Point3D(0, 1, 0);
+				cameraDolly.setRotationAxis(cam_r);
+				cameraDolly.setRotate(180);
+			}
+			if (keycode == KeyCode.UP) {				// Face camera NORTH direction
+				temp_x = car.getX();
+				temp_z = car.getZ() - 450;
+				cameraDolly.setTranslateX(temp_x);
+				up_cam = true;
+				back_cam = false;
+				left_cam = false;
+				right_cam = false;
+				cameraDolly.setTranslateZ(temp_z);
+				
+				Point3D cam_r = new Point3D(0, 1, 0);
+				cameraDolly.setRotationAxis(cam_r);
+				cameraDolly.setRotate(0);
+			}
+			if (keycode == KeyCode.LEFT) {				// Face camera WEST direction
+				temp_x = car.getX() + 450;
+				temp_z = car.getZ();
+				cameraDolly.setTranslateX(temp_x);
+				left_cam = true;
+				right_cam = false;
+				back_cam = false;
+				up_cam = false;
+				cameraDolly.setTranslateZ(temp_z);
+				
+				Point3D cam_r = new Point3D(0, 1, 0);
+				cameraDolly.setRotationAxis(cam_r);
+				cameraDolly.setRotate(270);
+			}
+			if (keycode == KeyCode.RIGHT) {				// Face camera EAST direction
+				temp_x = car.getX() - 450;
+				temp_z = car.getZ();
+				cameraDolly.setTranslateX(temp_x);
+				right_cam = true;
+				back_cam = false;
+				left_cam = false;
+				up_cam = false;
+				cameraDolly.setTranslateZ(temp_z);
+				
+				Point3D cam_r = new Point3D(0, 1, 0);
+				cameraDolly.setRotationAxis(cam_r);
+				cameraDolly.setRotate(90);
+			}
 			
 		});
 
@@ -549,10 +582,6 @@ public class CoolCar extends Application {
 				car.backwards = false;
 				engine.stop();
 				car.stop();
-			}
-			if(c == KeyCode.A || c == KeyCode.D) {
-				left_cam = false;
-				right_cam = false;
 			}
 			if(c == KeyCode.SHIFT) {
 				speedboost = false;
