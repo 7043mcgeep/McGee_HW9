@@ -33,10 +33,21 @@ import javafx.util.Duration;
  * 		    Alex Gattone
  * 
  * Alien Hunting!
- * Drive the fancy car and run over all aliens to win!
+ * Drive the fancy car and run over all 20 aliens to win!
  * If you fall off the platform, you lose!
  * Kill them as fast as you can. The less time you take,
- * the higher score you get!
+ * the higher final score you get!
+ * 
+ * INSTRUCTIONS:
+ * -------------
+ * + WASD controls the car
+ * + SHIFT for speed boost (must be activated before 'W' pressed)
+ * + Change camera direction with arrow keys
+ *   North, south, east, west (car as pivot)
+ * + Press E to honk the horn
+ *   
+ * + Functional sounds
+ * + Mothership rotates and flies up/down
  * 
  * Assignment 9
  * 5/4/2018
@@ -88,13 +99,14 @@ public class CoolCar extends Application {
 	// Make the world.
 	private void constructWorld(Group root) {
 		
+		// Define game sounds
 		Media song = new Media(ClassLoader.getSystemResource("David Bowie - Life On Mars.mp3").toString());
 		beep = new AudioClip(ClassLoader.getSystemResource("zapsplat_public_places_supermarket_checkout_till_scan_beep_002_17741.mp3").toString());
 		hit = new AudioClip(ClassLoader.getSystemResource("leisure_video_game_retro_8bit_power_up_002.mp3").toString());
 		horn = new AudioClip(ClassLoader.getSystemResource("horn.wav").toString());
 		start = new AudioClip(ClassLoader.getSystemResource("start.wav").toString());
 		engine = new AudioClip(ClassLoader.getSystemResource("engine2.wav").toString());
-		engine.setVolume(0.1);
+		engine.setVolume(0.7);
 		hit.setVolume(0.1);
 		beep.setVolume(0.1);
 		mP = new MediaPlayer(song);
@@ -225,7 +237,6 @@ public class CoolCar extends Application {
 		
 		// Define another small mountain of a different texture
 		MeshView sml_mtn2 = new MeshView(smallPyr);
-		//pyramid.setDrawMode(DrawMode.LINE);
 		final PhongMaterial rockMat = new PhongMaterial();
 		rockMat.setDiffuseMap(mtn4);
 		rockMat.setSpecularColor(Color.WHITE);
@@ -243,7 +254,7 @@ public class CoolCar extends Application {
 			Random rnd = new Random();
 			int randX = rnd.nextInt(5000);
 			int randZ = rnd.nextInt(5000);
-			//so they dont render in the pyramids
+			// so they do not render within the pyramids
 			if(randX < 440 && randX > -430 && randZ < 4400 && randZ > 3600) {
 				randX = randX + 300;
 				randZ = randZ + 300;
@@ -259,8 +270,8 @@ public class CoolCar extends Application {
 				a[i] = new alien("alien "+ i , -randX , 0, -randZ, root);
 			
 			/*
+			 * Box for testing bounding boxes of aliens.
 			if(i == 0) {
-				// Box for testing bounding boxes of aliens.
 				a_box = new Box(30, 80, 50);
 				a_box.setTranslateX(a[i].getX());
 				a_box.setTranslateY(-50);
@@ -277,18 +288,18 @@ public class CoolCar extends Application {
 
 	}
 
+	/* Base time -> current time in seconds based on system time.
+	 */
 	public static int getTimeSec(int base) {
 		int curr = 0, sec = 0;
 		
 		curr = (int) System.currentTimeMillis();
-		sec = (curr - base) / 1000;
+		sec = (curr - base) / 1000;			// Convert to seconds
 		
 		return sec;
 	}
 	
-	/**
-	 *  Update variables for one time step
-	 */
+	// Update varibales for our 3D world.
 	double i = 1;
 	int kills = 0;
 	public boolean increase = true;
@@ -302,6 +313,7 @@ public class CoolCar extends Application {
 		
 		car.update();
 		
+		// Ship up and down timing is controlled here
 		if(ship_up < 200) {
 			mothership.up();
 			ship_up++;
@@ -318,6 +330,7 @@ public class CoolCar extends Application {
 			}
 		}
 		
+		// Rotate the ship and update it
 		mothership.right();
 		mothership.update();
 		
@@ -410,8 +423,16 @@ public class CoolCar extends Application {
 				increase = true;
 		}
 		
+		// Always translate the camera on the same Y axis
 		cameraDolly.setTranslateY(car.getY() - 50);
 		
+		/* Boolean flag checking for directional changes using arrow keys,
+		 * UP = north
+		 * DOWN = south
+		 * LEFT = west
+		 * RIGHT = east
+		 * Car is always in sight.
+		 */
 		if(back_cam) {
 			cameraDolly.setTranslateX(car.getX());
 			cameraDolly.setTranslateZ(car.getZ() + 450);
@@ -478,14 +499,17 @@ public class CoolCar extends Application {
 			KeyCode keycode = event.getCode();
 
 			if (keycode == KeyCode.A) {
+				engine.play();
 				car.left();
 //				left_cam = true;
 			}
 			if (keycode == KeyCode.D) {
+				engine.play();
 				car.right();
 				right_cam = true;
 			}
 			if (keycode == KeyCode.SHIFT) {
+				engine.play();
 				speedboost = true;
 			}
 			if (keycode == KeyCode.W) {
@@ -605,6 +629,8 @@ public class CoolCar extends Application {
 		primaryStage.setTitle("Alien Hunting!");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		// Play fulfilling engine sound
 		start.play();
 	}
 
